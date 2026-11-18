@@ -54,16 +54,16 @@ export function Stats() {
 
       <section className="card" aria-labelledby="c1">
         <h2 id="c1" className="card-title">{t('stats.durations')}</h2>
-        <div className="chart"><ResponsiveContainer>
-          <BarChart data={durData} margin={{ top: 8, right: 8, bottom: 0, left: -20 }}>
+        {durData.some((d) => d.hours > 0) ? <div className="chart"><ResponsiveContainer>
+          <BarChart data={durData} margin={{ top: 8, right: 8, bottom: 0, left: -10 }}>
             <CartesianGrid stroke={grid} vertical={false} />
             <XAxis dataKey="day" tick={axis} interval="preserveStartEnd" minTickGap={16} />
-            <YAxis tick={axis} />
+            <YAxis tick={axis} allowDecimals={false} />
             <Tooltip {...tip} formatter={(v: number) => [f.hours(v), t('stats.hours')]} />
-            <ReferenceLine y={target} stroke="var(--danger)" strokeDasharray="4 4" label={{ value: t('stats.target'), fill: 'var(--muted)', fontSize: 11, position: 'insideTopRight' }} />
-            <Bar dataKey="hours" fill="var(--accent)" radius={[6, 6, 0, 0]} />
+            <ReferenceLine y={target} stroke="var(--danger)" strokeDasharray="4 4" ifOverflow="extendDomain" label={{ value: t('stats.target'), fill: 'var(--muted)', fontSize: 11, position: 'insideTopLeft' }} />
+            <Bar dataKey="hours" isAnimationActive={false} fill="var(--accent)" radius={[6, 6, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer></div>
+        </ResponsiveContainer></div> : <p className="muted">{t('stats.empty')}</p>}
       </section>
 
       <section className="card" aria-labelledby="c2">
@@ -75,8 +75,8 @@ export function Stats() {
               <XAxis dataKey="day" tick={axis} interval="preserveStartEnd" minTickGap={16} />
               <YAxis tick={axis} domain={['dataMin - 2', 'dataMax + 2']} />
               <Tooltip {...tip} />
-              {profile.goalWeightKg && <ReferenceLine y={profile.goalWeightKg} stroke="var(--ok)" strokeDasharray="4 4" label={{ value: t('stats.goal'), fill: 'var(--muted)', fontSize: 11, position: 'insideTopRight' }} />}
-              <Line type="monotone" dataKey="kg" stroke="var(--accent)" strokeWidth={3} dot={{ r: 3 }} />
+              {profile.goalWeightKg && <ReferenceLine y={profile.goalWeightKg} stroke="var(--ok)" strokeDasharray="4 4" label={{ value: t('stats.goal'), fill: 'var(--muted)', fontSize: 11, position: 'insideTopLeft' }} />}
+              <Line isAnimationActive={false} type="monotone" dataKey="kg" stroke="var(--accent)" strokeWidth={3} dot={{ r: 3 }} />
             </LineChart>
           </ResponsiveContainer></div>
         ) : <p className="muted">{t('stats.empty')}</p>}
@@ -84,16 +84,16 @@ export function Stats() {
 
       <section className="card" aria-labelledby="c3">
         <h2 id="c3" className="card-title">{t('stats.waterChart')}</h2>
-        <div className="chart"><ResponsiveContainer>
+        {waterData.some((d) => d.ml > 0) ? <div className="chart"><ResponsiveContainer>
           <BarChart data={waterData} margin={{ top: 8, right: 8, bottom: 0, left: -10 }}>
             <CartesianGrid stroke={grid} vertical={false} />
             <XAxis dataKey="day" tick={axis} interval="preserveStartEnd" minTickGap={16} />
-            <YAxis tick={axis} />
+            <YAxis tick={axis} allowDecimals={false} />
             <Tooltip {...tip} />
-            <ReferenceLine y={profile.waterGoalMl} stroke="var(--danger)" strokeDasharray="4 4" />
-            <Bar dataKey="ml" fill="var(--water)" radius={[6, 6, 0, 0]} />
+            <ReferenceLine y={profile.waterGoalMl} stroke="var(--danger)" strokeDasharray="4 4" ifOverflow="extendDomain" />
+            <Bar dataKey="ml" isAnimationActive={false} fill="var(--water)" radius={[6, 6, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer></div>
+        </ResponsiveContainer></div> : <p className="muted">{t('stats.empty')}</p>}
       </section>
     </div>
   );

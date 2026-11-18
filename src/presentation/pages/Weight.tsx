@@ -23,7 +23,7 @@ export function Weight() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const v = Number(kg.replace(',', '.'));
-    try { await uc.logWeight(v, date); setKg(''); setError(''); await reload(); } catch { setError(t('weight.invalid')); }
+    try { await uc.logWeight(v, date); setKg(''); setDate(today); setError(''); await reload(); } catch { setError(t('weight.invalid')); }
   };
 
   let progress: number | undefined;
