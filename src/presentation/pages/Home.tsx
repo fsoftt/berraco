@@ -20,7 +20,7 @@ export function Home() {
   const { active, fasts, profile, water, container, reload } = useApp();
   const uc = container.useCases;
   const now = useNow(1000);
-  const { canInstall, install } = useInstallPrompt();
+  const { canInstall, install, installed } = useInstallPrompt();
   const [protocol, setProtocol] = useState(profile.defaultProtocolId);
   const [ending, setEnding] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -57,6 +57,7 @@ export function Home() {
 
   return (
     <div className="page">
+      {installed && <div className="banner" role="status"><span>{t('settings.installDone')}</span></div>}
       {canInstall && (
         <div className="banner" role="region">
           <span>{t('home.installBanner')}</span>

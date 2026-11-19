@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { splitDuration } from '../../domain';
+import { canPromptInstall, detectPlatform, isStandalone, runInstall, subscribeInstall, wasInstalled, type InstallResult } from '../../installPrompt';
 
 export function useNow(intervalMs = 1000, enabled = true): number {
   const [now, setNow] = useState(() => Date.now());
@@ -37,27 +38,15 @@ export function useFormat() {
   }, [locale, t]);
 }
 
-interface BeforeInstallPromptEvent extends Event { prompt(): Promise<void>; userChoice: Promise<{ outcome: string }> }
-let deferred: BeforeInstallPromptEvent | null = null;
-const listeners = new Set<() => void>();
-if (typeof window !== 'undefined') {
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e as BeforeInstallPromptEvent; listeners.forEach((l) => l()); });
-  window.addEventListener('appinstalled', () => { deferred = null; listeners.forEach((l) => l()); });
-}
 export function useInstallPrompt() {
   const [, force] = useState(0);
-  useEffect(() => {
-    const l = () => force((n) => n + 1);
-    listeners.add(l);
-    return () => { listeners.delete(l); };
-  }, []);
-  const install = useCallback(async () => {
-    if (!deferred) return;
-    await deferred.prompt();
-    await deferred.userChoice.catch(() => undefined);
-    deferred = null; listeners.forEach((l) => l());
-  }, []);
-  return { canInstall: deferred !== null, install };
+  const [result, setResult] = useState<InstallResult | null>(null);
+  useEffect(() => subscribeInstall(() => force((n) => n + 1)), []);
+  const install = useCallback(async () => { setResult(await runInstall()); }, []);
+  return {
+    canInstall: canPromptInstall(), install, result,
+    installed: wasInstalled() || result === 'accepted', standalone: isStandalone(), platform: detectPlatform(),
+  };
 }
 
 export function applyTheme(theme: 'system' | 'light' | 'dark') {

@@ -13,7 +13,7 @@ export function Settings() {
   const { t } = useTranslation();
   const { profile, container, reload } = useApp();
   const uc = container.useCases;
-  const { canInstall, install } = useInstallPrompt();
+  const { canInstall, install, result, installed, standalone, platform } = useInstallPrompt();
   const fileRef = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState('');
   const [msgErr, setMsgErr] = useState(false);
@@ -91,9 +91,14 @@ export function Settings() {
 
       <section className="card">
         <h2 className="card-title">{t('settings.install')}</h2>
-        {canInstall
-          ? <button className="btn" onClick={() => void install()}>{t('settings.installBtn')}</button>
-          : <p className="muted small-text">{t('settings.installUnavailable')}</p>}
+        {standalone || installed ? <p className="muted small-text">{t(installed && !standalone ? 'settings.installDone' : 'settings.installAlready')}</p> : (
+          <>
+            {canInstall && <button className="btn" onClick={() => void install()}>{t('settings.installBtn')}</button>}
+            {result === 'dismissed' && <p className="muted small-text">{t('settings.installDismissed')}</p>}
+            {!canInstall && <p className="muted small-text">{t(`settings.installManual.${platform}`)}</p>}
+          </>
+        )}
+        {platform === 'android' || platform === 'samsung' ? <p className="muted small-text">{t('settings.installAndroidNote')}</p> : null}
       </section>
 
       <section className="card">
