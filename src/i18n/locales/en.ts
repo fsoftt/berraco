@@ -31,7 +31,7 @@ const en: Translation = {
   },
   home: {
     idleHint: 'Pick a protocol and start whenever you are ready.',
-    start: 'Start fast', end: 'End fast', protocol: 'Protocol', customHours: 'Custom fast hours',
+    start: 'Start fast', end: 'End fast', discard: 'Discard fast', protocol: 'Protocol', customHours: 'Custom fast hours',
     ringLabel: 'Fast progress: {{percent}}%', elapsed: 'Elapsed', remaining: '{{time}} left',
     reached: 'Goal reached!', expectedEnd: 'Ends: {{when}}', startedAt: 'Started: {{when}}',
     editStart: 'Edit start time', startedAtLabel: 'Start time', futureError: 'The start time cannot be in the future.',
@@ -41,6 +41,7 @@ const en: Translation = {
     installBanner: 'Install Berraco on your phone to use it like an app.', install: 'Install',
     miniTimer: 'Mini timer', percent: '{{value}}%',
   },
+  discardDialog: { title: 'Discard fast?', body: 'The current fast will be deleted and will not appear in history.', confirm: 'Discard' },
   endSheet: { title: 'How did it go?', moodPrompt: 'How do you feel?', note: 'Note (optional)', notePlaceholder: 'E.g. got hungry around 2 pm', confirm: 'Save and finish' },
   history: {
     title: 'History', empty: 'No fasts yet. Once you finish your first one, it shows up here.',

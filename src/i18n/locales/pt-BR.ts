@@ -31,7 +31,7 @@ const ptBR: Translation = {
   },
   home: {
     idleHint: 'Escolha um protocolo e comece quando quiser.',
-    start: 'Iniciar jejum', end: 'Encerrar jejum', protocol: 'Protocolo', customHours: 'Horas do jejum personalizado',
+    start: 'Iniciar jejum', end: 'Encerrar jejum', discard: 'Descartar jejum', protocol: 'Protocolo', customHours: 'Horas do jejum personalizado',
     ringLabel: 'Progresso do jejum: {{percent}}%', elapsed: 'Decorrido', remaining: 'Faltam {{time}}',
     reached: 'Meta alcançada!', expectedEnd: 'Termina: {{when}}', startedAt: 'Começou: {{when}}',
     editStart: 'Editar hora de início', startedAtLabel: 'Hora de início', futureError: 'A hora de início não pode estar no futuro.',
@@ -41,6 +41,7 @@ const ptBR: Translation = {
     installBanner: 'Instale o Berraco no celular para usar como um app.', install: 'Instalar',
     miniTimer: 'Mini timer', percent: '{{value}}%',
   },
+  discardDialog: { title: 'Descartar jejum?', body: 'O jejum atual será apagado e não ficará no histórico.', confirm: 'Descartar' },
   endSheet: { title: 'Como foi?', moodPrompt: 'Como você se sente?', note: 'Nota (opcional)', notePlaceholder: 'Ex.: senti fome às 14 h', confirm: 'Salvar e encerrar' },
   history: {
     title: 'Histórico', empty: 'Ainda não há jejuns. Quando você terminar o primeiro, ele aparece aqui.',

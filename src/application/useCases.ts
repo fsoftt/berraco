@@ -71,6 +71,12 @@ export function createUseCases(d: Deps) {
       await d.fasts.put(done); await syncMirror();
       return done;
     },
+    /** Drops the active fast without saving it to history. */
+    async discardFast(): Promise<void> {
+      const a = await d.fasts.getActive();
+      if (!a) throw new FastError('no-active');
+      await d.fasts.remove(a.id); await syncMirror();
+    },
     async editFast(id: string, patch: Partial<Pick<Fast, 'startedAt' | 'endedAt' | 'note' | 'mood' | 'targetHours' | 'protocolId'>>): Promise<Fast> {
       const f = await d.fasts.get(id);
       if (!f) throw new FastError('not-found');

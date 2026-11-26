@@ -30,7 +30,7 @@ const esCO = {
   },
   home: {
     idleHint: 'Escoge un protocolo y arranca cuando quieras, parce.',
-    start: 'Empezar ayuno', end: 'Terminar ayuno', protocol: 'Protocolo', customHours: 'Horas del ayuno personalizado',
+    start: 'Empezar ayuno', end: 'Terminar ayuno', discard: 'Descartar ayuno', protocol: 'Protocolo', customHours: 'Horas del ayuno personalizado',
     ringLabel: 'Progreso del ayuno: {{percent}} %', elapsed: 'Transcurrido', remaining: 'Faltan {{time}}',
     reached: '¡Meta cumplida, berraco!', expectedEnd: 'Termina: {{when}}', startedAt: 'Empezó: {{when}}',
     editStart: 'Editar hora de inicio', startedAtLabel: 'Hora de inicio', futureError: 'La hora de inicio no puede estar en el futuro.',
@@ -40,6 +40,7 @@ const esCO = {
     installBanner: 'Instala Berraco en tu celular para usarlo como una app.', install: 'Instalar',
     miniTimer: 'Mini timer', percent: '{{value}} %',
   },
+  discardDialog: { title: '¿Descartar ayuno?', body: 'El ayuno actual se borrará y no quedará en el historial.', confirm: 'Descartar' },
   endSheet: { title: '¿Cómo te fue?', moodPrompt: '¿Cómo te sientes?', note: 'Nota (opcional)', notePlaceholder: 'Ej: me dio hambre a las 14 h', confirm: 'Guardar y terminar' },
   history: {
     title: 'Historial', empty: 'Aún no hay ayunos. Cuando termines el primero, aparece acá.',

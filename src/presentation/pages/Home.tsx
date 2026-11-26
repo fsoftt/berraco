@@ -24,6 +24,7 @@ export function Home() {
   const [protocol, setProtocol] = useState(profile.defaultProtocolId);
   const [ending, setEnding] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [discarding, setDiscarding] = useState(false);
   const [mood, setMood] = useState<Mood | undefined>();
   const [note, setNote] = useState('');
   const [startInput, setStartInput] = useState('');
@@ -45,6 +46,10 @@ export function Home() {
   const confirmEnd = async () => {
     await uc.endFast({ mood, note });
     setEnding(false); setMood(undefined); setNote(''); await reload();
+  };
+  const confirmDiscard = async () => {
+    await uc.discardFast();
+    setDiscarding(false); setEnding(false); setMood(undefined); setNote(''); await reload();
   };
   const addWater = async () => { await uc.logWater(WATER_STEP); await reload(); };
   const saveStart = async () => {
@@ -113,7 +118,10 @@ export function Home() {
         {!active && <p className="muted small-text">{t(`protocols.${protocol}.desc`)}</p>}
 
         {active
-          ? <button className="btn big danger-soft" onClick={() => setEnding(true)}>{t('home.end')}</button>
+          ? <>
+              <button className="btn big danger-soft" onClick={() => setEnding(true)}>{t('home.end')}</button>
+              <button className="btn ghost small danger discard" onClick={() => setDiscarding(true)}>{t('home.discard')}</button>
+            </>
           : <button className="btn big" onClick={() => void start()}>{t('home.start')}</button>}
       </section>
 
@@ -177,6 +185,15 @@ export function Home() {
           <div className="row end">
             <button className="btn ghost" onClick={() => setEnding(false)}>{t('common.cancel')}</button>
             <button className="btn" onClick={() => void confirmEnd()}>{t('endSheet.confirm')}</button>
+          </div>
+        </Modal>
+      )}
+      {discarding && (
+        <Modal title={t('discardDialog.title')} onClose={() => setDiscarding(false)} variant="dialog">
+          <p className="muted">{t('discardDialog.body')}</p>
+          <div className="row end">
+            <button className="btn ghost" onClick={() => setDiscarding(false)}>{t('common.cancel')}</button>
+            <button className="btn danger" onClick={() => void confirmDiscard()}>{t('discardDialog.confirm')}</button>
           </div>
         </Modal>
       )}

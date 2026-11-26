@@ -32,6 +32,16 @@ describe('use cases', () => {
     expect(mirror()).toBeNull();
     expect((await uc.getStats()).totalFasts).toBe(1);
   });
+  it('discard removes active fast without saving it', async () => {
+    const { deps, mirror } = memDeps();
+    const uc = createUseCases(deps);
+    await uc.startFast('16:8');
+    await uc.discardFast();
+    expect(await uc.getActiveFast()).toBeUndefined();
+    expect((await uc.listFasts()).length).toBe(0);
+    expect(mirror()).toBeNull();
+    await expect(uc.discardFast()).rejects.toThrow('no-active');
+  });
   it('edit validation', async () => {
     const { deps, now } = memDeps();
     const uc = createUseCases(deps);
